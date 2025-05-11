@@ -1,0 +1,9 @@
+{
+	"scripts": {
+		"lint": "xo"
+	},
+	"devDependencies": {
+		"add": "^2.0.6",
+		"xo": "^0.60.0"
+	}
+}
