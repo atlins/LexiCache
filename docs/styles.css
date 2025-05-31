@@ -1,23 +1,70 @@
 :root {
-  --color-primary: #FFFCFC;
+  --color-primary: #5cbae6;
   --color-secondary: #3B535F;
-  --color-background: #FFFCFC;
-  --color-text: #3B535F;
-  --color-accent: #DD4A33;
+  --color-accent: #de2f3b;
+  --color-bg-outer: #edf2f7;
+  --color-bg-inner: #fff;
+  --color-text-body: #65717b;
+  --color-text-caption: #65717b --space-xs: 4px;
+  --space-s: 8px;
+  --space-m: 12px;
+  --space-l: 24px;
+  --space-xl: 48px;
+
+  --font-size-s: 0.8rem;
+  --font-size-m: 1rem;
+  --font-size-l: 1.2rem;
+  --font-size-xl: 1.5rem;
+  --font-size-xxl: 2rem;
 }
 
 body {
   margin: 0;
   padding: 0;
+  font-family: 'Roboto', sans-serif;
 }
 
 main {
   width: 100vw;
   height: 100vh;
-  background-color: var(--color-background);
+}
+
+div {
+  box-sizing: border-box;
 }
 
 p {
   margin: 0;
   color: var(--color-text);
+}
+
+.view-container {
+  width: 100%;
+  height: 100%;
+  padding-block: var(--space-l);
+  padding-inline: var(--space-xl);
+  background-color: var(--color-bg-outer);
+}
+
+.word-list-container {
+  background-color: var(--color-bg-inner);
+  padding-inline: var(--space-xl);
+}
+
+.new-entry-form-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding-block: var(--space-l);
+  padding-inline: var(--space-xl);
+  background-color: var(--color-bg-inner);
+}
+
+.entry-fields-container {
+  display: flex;
+  flex-direction: column;
 }

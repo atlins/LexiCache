@@ -8,13 +8,42 @@
     content="Your own English word cache — simple, personal, and always ready when you need it." />
   <title>LexiCache</title>
   <link rel="stylesheet" href="./styles.css" />
-  <script src="./script.js" defer></script>
 </head>
 
 <body>
   <main>
-    <p>Hello world!</p>
+    <div class="view-container">
+      <div class="word-list-container">
+        <h2>Word List</h2>
+        <div class="active-word-list-container">
+          <h3>To Memorize</h3>
+          <ul class="active-word-list"></ul>
+        </div>
+        <div class="completed-word-list-container">
+          <h3>Memorized</h3>
+          <ul class="completed-word-list"></ul>
+        </div>
+      </div>
+
+      <form id="new-entry-form" novalidate>
+        <div class="new-entry-form-container">
+          <div class="entry-fields-container">
+            <label class="control-label">
+              <span>Word:</span>
+              <input name="word" type="text" required />
+            </label>
+            <label class="control-label">
+              <span>Meaning:</span>
+              <input name="meaning" type="text" required />
+            </label>
+          </div>
+          <button type="button" onclick="handleClickAddActiveWordButton()">Add</button>
+        </div>
+      </form>
+    </div>
   </main>
+
+  <script src="./script.js" defer></script>
 </body>
 
 </html>
