@@ -57,9 +57,31 @@ const createWordItemElement = id => {
 };
 
 const addActiveWord = id => {
-  const wordItem = wordItems.find(item => item.id === id);
-  wordItem.isMarkedAsMemorized = false;
+  updateWord(id, {isMarkedAsMemorized: false});
   activeWordListElement.prepend(createWordItemElement(id));
+};
+
+const updateWord = (
+  id,
+  /*
+  * The option value can be even partial:
+  *   {isMarkedAsMemorized: true}
+  * or overall:
+  *   {
+  *     id: undefined,
+  *     word: undefined,
+  *     meaning: undefined,
+  *     isMarkedAsMemorized: false,
+  *   }
+  */
+  option,
+) => {
+  const index = wordItems.findIndex(item => item.id === id);
+  const newWordItem = {
+    ...wordItems.at(index),
+    ...option,
+  };
+  proxy.splice(index, 1, newWordItem);
 };
 
 const removeActiveWord = id => {
@@ -82,11 +104,7 @@ const registerWord = (word, meaning) => {
 };
 
 const addCompletedWord = id => {
-  // TODO: define it as a function.
-  const index = wordItems.findIndex(item => item.id === id);
-  const newWordItem = {...wordItems.at(index), isMarkedAsMemorized: true};
-  proxy.splice(index, 1, newWordItem);
-
+  updateWord(id, {isMarkedAsMemorized: true});
   completedWordListElement.prepend(createWordItemElement(id));
 };
 
