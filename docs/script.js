@@ -1,6 +1,11 @@
 const wordListItemIdPrefix = 'word-list-item';
+const localStorageKey = 'wordItems';
 
-const wordItems = [];
+const activeWordListElement = document.querySelector('.active-word-list');
+const completedWordListElement = document.querySelector('.completed-word-list');
+const wordField = document.querySelector('input[name="word"]');
+const meaningField = document.querySelector('input[name="meaning"]');
+
 const defaultWordItem = {
   id: undefined,
   word: undefined,
@@ -8,10 +13,7 @@ const defaultWordItem = {
   isMarkedAsMemorized: false,
 };
 
-const activeWordListElement = document.querySelector('.active-word-list');
-const completedWordListElement = document.querySelector('.completed-word-list');
-const wordField = document.querySelector('input[name="word"]');
-const meaningField = document.querySelector('input[name="meaning"]');
+const wordItems = [];
 
 const createWordItemElement = id => {
   const wordItem = wordItems.find(item => item.id === id);
@@ -66,6 +68,8 @@ const registerWord = (word, meaning) => {
     meaning,
   };
   wordItems.push(newItem);
+  // TODO: to automatically save once wordItems changes except for the fetch timing
+  localStorage.setItem(localStorageKey, JSON.stringify(wordItems));
 
   addActiveWord(id);
 };
@@ -114,6 +118,30 @@ const handleClickAddActiveWordButton = () => {
   registerWord(word, meaning);
   clearNewEntryForm();
 };
+
+const displayAllWords = () => {
+  for (const item of wordItems) {
+    const {id, isMarkedAsMemorized} = item;
+    if (isMarkedAsMemorized) {
+      addCompletedWord(id);
+    } else {
+      addActiveWord(id);
+    }
+  }
+};
+
+const fetchWords = () => {
+  const data = localStorage.getItem(localStorageKey);
+  if (data) {
+    const dataObject = JSON.parse(data);
+    for (const item of dataObject) {
+      wordItems.push(item);
+    }
+  }
+};
+
+fetchWords();
+displayAllWords();
 
 globalThis.handleClickAddActiveWordButton = handleClickAddActiveWordButton;
 globalThis.handleClickWordItemCheckbox = handleClickWordItemCheckbox;
