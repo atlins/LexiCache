@@ -15,6 +15,15 @@ const defaultWordItem = {
 
 const wordItems = [];
 
+const handleWordItemsChange = {
+  set(target, property, value, receiver) {
+    localStorage.setItem(localStorageKey, JSON.stringify(wordItems));
+    return Reflect.set(target, property, value, receiver);
+  },
+};
+
+const proxy = new Proxy(wordItems, handleWordItemsChange);
+
 const createWordItemElement = id => {
   const wordItem = wordItems.find(item => item.id === id);
   if (!wordItem) {
@@ -67,16 +76,17 @@ const registerWord = (word, meaning) => {
     word,
     meaning,
   };
-  wordItems.push(newItem);
-  // TODO: to automatically save once wordItems changes except for the fetch timing
-  localStorage.setItem(localStorageKey, JSON.stringify(wordItems));
+  proxy.push(newItem);
 
   addActiveWord(id);
 };
 
 const addCompletedWord = id => {
-  const wordItem = wordItems.find(item => item.id === id);
-  wordItem.isMarkedAsMemorized = true;
+  // TODO: define it as a function.
+  const index = wordItems.findIndex(item => item.id === id);
+  const newWordItem = {...wordItems.at(index), isMarkedAsMemorized: true};
+  proxy.splice(index, 1, newWordItem);
+
   completedWordListElement.prepend(createWordItemElement(id));
 };
 
@@ -135,7 +145,7 @@ const fetchWords = () => {
   if (data) {
     const dataObject = JSON.parse(data);
     for (const item of dataObject) {
-      wordItems.push(item);
+      proxy.push(item);
     }
   }
 };
