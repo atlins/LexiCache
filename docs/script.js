@@ -75,6 +75,14 @@ const createWordItemElement = id => {
     }
   }
 
+  const removeButton = document.createElement('input');
+  removeButton.type = 'button';
+  removeButton.name = String(id);
+  removeButton.value = 'Remove';
+  removeButton.addEventListener('click', handleClickRemoveWordButton);
+
+  listElement.append(removeButton);
+
   return listElement;
 };
 
@@ -127,6 +135,13 @@ const registerWord = (word, meaning, usages) => {
   addActiveWord(id);
 };
 
+const unregisterWord = id => {
+  const index = wordItems.findIndex(item => item.id === id);
+
+  removeWord(id);
+  proxy.splice(index, 1);
+};
+
 const addCompletedWord = id => {
   updateWord(id, {isMarkedAsMemorized: true});
   completedWordListElement.prepend(createWordItemElement(id));
@@ -145,6 +160,15 @@ const markAsMemorized = id => {
 const unmarkAsMemorized = id => {
   removeCompletedWord(id);
   addActiveWord(id);
+};
+
+const removeWord = id => {
+  const wordItem = wordItems.find(item => item.id === id);
+  if (wordItem.isMarkedAsMemorized) {
+    removeCompletedWord(id);
+  } else {
+    removeActiveWord(id);
+  }
 };
 
 const clearNewEntryForm = () => {
@@ -175,6 +199,11 @@ const handleClickAddActiveWordButton = () => {
 
   registerWord(word, meaning, usages);
   clearNewEntryForm();
+};
+
+const handleClickRemoveWordButton = event => {
+  const targetId = event.target.name;
+  unregisterWord(targetId);
 };
 
 const displayAllWords = () => {
