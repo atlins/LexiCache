@@ -1,15 +1,20 @@
 const wordListItemIdPrefix = 'word-list-item';
 const localStorageKey = 'wordItems';
 
+const wordListItemClassName = 'word-list-item';
+
 const activeWordListElement = document.querySelector('.active-word-list');
 const completedWordListElement = document.querySelector('.completed-word-list');
 const wordField = document.querySelector('input[name="word"]');
 const meaningField = document.querySelector('input[name="meaning"]');
+const usageExpressionField = document.querySelector('input[name="usage-expression"]');
+const usageMeaningField = document.querySelector('input[name="usage-meaning"]');
 
 const defaultWordItem = {
   id: undefined,
   word: undefined,
   meaning: undefined,
+  usages: undefined,
   isMarkedAsMemorized: false,
 };
 
@@ -30,10 +35,11 @@ const createWordItemElement = id => {
     return null;
   }
 
-  const {word, meaning, isMarkedAsMemorized} = wordItem;
+  const {word, meaning, usages, isMarkedAsMemorized} = wordItem;
 
   const listElement = document.createElement('li');
   listElement.id = `${wordListItemIdPrefix}-${id}`;
+  listElement.className = wordListItemClassName;
 
   const checkbox = document.createElement('input');
   checkbox.type = 'checkbox';
@@ -52,6 +58,22 @@ const createWordItemElement = id => {
   listElement.append(checkbox);
   listElement.append(wordSpan);
   listElement.append(meaningSpan);
+
+  // TODO: loop for the usages array.
+  if (usages !== undefined && usages.length > 0) {
+    for (const usage of usages) {
+      const usageExpressionSpan = document.createElement('span');
+      usageExpressionSpan.className = 'usage-expression';
+      usageExpressionSpan.textContent = usage.expression;
+
+      const usageMeaningSpan = document.createElement('span');
+      usageMeaningSpan.className = 'usage-meaning';
+      usageMeaningSpan.textContent = usage.meaning;
+
+      listElement.append(usageExpressionSpan);
+      listElement.append(usageMeaningSpan);
+    }
+  }
 
   return listElement;
 };
@@ -89,16 +111,18 @@ const removeActiveWord = id => {
   wordItemElement.remove();
 };
 
-const registerWord = (word, meaning) => {
+const registerWord = (word, meaning, usages) => {
   const id = crypto.randomUUID();
 
   const newItem = {
     ...defaultWordItem,
     id,
     word,
+    usages,
     meaning,
   };
   proxy.push(newItem);
+  console.log({proxy});
 
   addActiveWord(id);
 };
@@ -142,8 +166,14 @@ const handleClickWordItemCheckbox = event => {
 const handleClickAddActiveWordButton = () => {
   const word = wordField.value;
   const meaning = meaningField.value;
+  const usages = [];
+  const usage = {
+    expression: usageExpressionField.value,
+    meaning: usageMeaningField.value,
+  };
+  usages.push(usage);
 
-  registerWord(word, meaning);
+  registerWord(word, meaning, usages);
   clearNewEntryForm();
 };
 

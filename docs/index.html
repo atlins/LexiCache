@@ -28,14 +28,22 @@
       <form id="new-entry-form" novalidate>
         <div class="new-entry-form-container">
           <div class="entry-fields-container">
-            <label class="control-label">
-              <span>Word:</span>
-              <input name="word" type="text" required />
-            </label>
-            <label class="control-label">
-              <span>Meaning:</span>
-              <input name="meaning" type="text" required />
-            </label>
+            <div class="word-definition-container">
+              <label class="control-label">
+                <span>Word:</span>
+                <input name="word" type="text" required />
+              </label>
+              <label class="control-label">
+                <span>Meaning:</span>
+                <input name="meaning" type="text" required />
+              </label>
+            </div>
+            <div class="word-example-container">
+              <label class="control-label">
+                <input name="usage-expression" type="text" placeholder="Hello, World!">
+                <input name="usage-meaning" type="text" placeholder="こんにちは、世界！">
+              </label>
+            </div>
           </div>
           <button type="button" onclick="handleClickAddActiveWordButton()">Add</button>
         </div>

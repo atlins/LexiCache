@@ -68,3 +68,7 @@ p {
   display: flex;
   flex-direction: column;
 }
+
+.word-list-item {
+  display: flex;
+}
