@@ -1,0 +1,28 @@
+:root {
+  --color-primary: #5cbae6;
+  --color-primary-hover: #3399c8;
+  --color-secondary: #3B535F;
+  --color-accent: #de2f3b;
+  --color-bg-outer: #edf2f7;
+  --color-bg-inner: #ffff;
+  --color-text-body: #65717b;
+  --color-text-caption: #65717b;
+  --color-text-inverse: #ffff;
+  --color-text-error: #de2f3b;
+
+  --space-xs: 4px;
+  --space-s: 8px;
+  --space-m: 12px;
+  --space-l: 16px;
+  --space-xl: 24px;
+  --space-xxl: 36px;
+  --space-x3l: 48px;
+
+  --shape-s: 4px;
+
+  --font-size-s: 0.8rem;
+  --font-size-m: 1rem;
+  --font-size-l: 1.2rem;
+  --font-size-xl: 1.5rem;
+  --font-size-xxl: 2rem;
+}
