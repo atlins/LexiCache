@@ -114,11 +114,6 @@ const updateWord = (
   proxy.splice(index, 1, newWordItem);
 };
 
-const removeActiveWord = id => {
-  const wordItemElement = document.querySelector(`#${wordListItemIdPrefix}-${id}`);
-  wordItemElement.remove();
-};
-
 const registerWord = (word, meaning, usages) => {
   const id = crypto.randomUUID();
 
@@ -130,7 +125,6 @@ const registerWord = (word, meaning, usages) => {
     meaning,
   };
   proxy.push(newItem);
-  console.log({proxy});
 
   addActiveWord(id);
 };
@@ -147,28 +141,19 @@ const addCompletedWord = id => {
   completedWordListElement.prepend(createWordItemElement(id));
 };
 
-const removeCompletedWord = id => {
-  const wordItemElement = document.querySelector(`#${wordListItemIdPrefix}-${id}`);
-  wordItemElement.remove();
-};
-
 const markAsMemorized = id => {
-  removeActiveWord(id);
+  removeWord(id);
   addCompletedWord(id);
 };
 
 const unmarkAsMemorized = id => {
-  removeCompletedWord(id);
+  removeWord(id);
   addActiveWord(id);
 };
 
 const removeWord = id => {
-  const wordItem = wordItems.find(item => item.id === id);
-  if (wordItem.isMarkedAsMemorized) {
-    removeCompletedWord(id);
-  } else {
-    removeActiveWord(id);
-  }
+  const wordItemElement = document.querySelector(`#${wordListItemIdPrefix}-${id}`);
+  wordItemElement.remove();
 };
 
 const clearNewEntryForm = () => {
